@@ -5,6 +5,12 @@ import SimpleSchema from "simpl-schema";
 
 export const Notes = new Mongo.Collection("notes");
 
+if (Meteor.isServer) {
+  Meteor.publish("notes", function() {
+    return Notes.find({ userId: this.userId });
+  });
+}
+
 Meteor.methods({
   "notes.insert"() {
     if (!this.userId) {
@@ -55,11 +61,17 @@ Meteor.methods({
       ...updates
     });
 
-    Notes.update(_id, {
-      $set: {
-        updatedAt: moment().valueOf(),
-        ...updates
+    Notes.update(
+      {
+        _id,
+        userId: this.userId
+      },
+      {
+        $set: {
+          updatedAt: moment().valueOf(),
+          ...updates
+        }
       }
-    });
+    );
   }
 });
