@@ -8,7 +8,10 @@ import PrivateHeader from "./PrivateHeader";
 if (Meteor.isClient) {
   describe("PrivateHeader", function() {
     it("should set button text to logout", function() {
-      mount(<PrivateHeader title="Test Title" />);
+      const wrapper = mount(<PrivateHeader title="Test Title" />);
+      const buttonText = wrapper.find("button").text();
+
+      expect(buttonText).toBe("Logout");
     });
   });
 }
