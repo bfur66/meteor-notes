@@ -1,9 +1,12 @@
 import { Meteor } from "meteor/meteor";
 import React from "react";
 import expect from "expect";
-import { mount } from "enzyme";
+import Enzyme, { mount } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 
 import PrivateHeader from "./PrivateHeader";
+
+Enzyme.configure({ adapter: new Adapter() });
 
 if (Meteor.isClient) {
   describe("PrivateHeader", function() {
